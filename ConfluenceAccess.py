@@ -11,7 +11,6 @@ https://community.atlassian.com/t5/Answers-Developer-Questions/How-to-update-a-p
 import argparse
 import getpass
 import json
-import keyring
 import requests
 
 # Constants: these allow access to Atlassian REST API
@@ -96,11 +95,7 @@ def get_login(username=None):
     if username is None:
         username = getpass.getuser()
 
-    password = keyring.get_password('confluence_script', username)
-
-    if password is None:
-        password = getpass.getpass()
-        keyring.set_password('confluence_script', username, password)
+    password = getpass.getpass()
 
     return (username, password)
 
