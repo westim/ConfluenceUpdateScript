@@ -1,3 +1,10 @@
-language: python
-install: "pip install  pylint"
-script: "pylint"
+  language: python
+  python:
+    - "3.6"
+  install:
+    -  pip install pylint
+script: 
+    -  nosetests --with-coverage --cover-erase --cover-inclusive --cover-package=pylint_server
+after_success:
+    - pylint --output-format=html pylint_server > /tmp/pylint-report.html
+    - curl -v -m 120 -X POST -F travis-job-id=$TRAVIS_JOB_ID -F pylint-report=@/tmp/pylint-report.html https://pylint.yourserver.com/reports
